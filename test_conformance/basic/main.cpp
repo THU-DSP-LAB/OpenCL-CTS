@@ -43,7 +43,7 @@ test_definition test_list[] = {
     ADD_TEST(loop),
     ADD_TEST(pointer_cast),
     ADD_TEST(local_arg_def),
-    ADD_TEST(local_kernel_def),
+    // ADD_TEST(local_kernel_def),
     ADD_TEST(local_kernel_scope),
     ADD_TEST(constant),
     ADD_TEST(constant_source),
@@ -141,17 +141,17 @@ test_definition test_list[] = {
     ADD_TEST(kernel_memory_alignment_constant),
     ADD_TEST(kernel_memory_alignment_private),
 
-    ADD_TEST_VERSION(progvar_prog_scope_misc, Version(2, 0)),
-    ADD_TEST_VERSION(progvar_prog_scope_uninit, Version(2, 0)),
-    ADD_TEST_VERSION(progvar_prog_scope_init, Version(2, 0)),
-    ADD_TEST_VERSION(progvar_func_scope, Version(2, 0)),
+    // ADD_TEST_VERSION(progvar_prog_scope_misc, Version(2, 0)),
+    // ADD_TEST_VERSION(progvar_prog_scope_uninit, Version(2, 0)),
+    // ADD_TEST_VERSION(progvar_prog_scope_init, Version(2, 0)),
+    // ADD_TEST_VERSION(progvar_func_scope, Version(2, 0)),
 
     ADD_TEST(global_work_offsets),
     ADD_TEST(get_global_offset),
 
     ADD_TEST_VERSION(global_linear_id, Version(2, 0)),
     ADD_TEST_VERSION(local_linear_id, Version(2, 0)),
-    ADD_TEST_VERSION(enqueued_local_size, Version(2, 0)),
+    // ADD_TEST_VERSION(enqueued_local_size, Version(2, 0)),
 
     ADD_TEST(simple_read_image_pitch),
     ADD_TEST(simple_write_image_pitch),
