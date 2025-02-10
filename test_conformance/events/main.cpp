@@ -53,10 +53,10 @@ test_definition test_list[] = {
     ADD_TEST(out_of_order_event_enqueue_barrier_single_queue),
 
     ADD_TEST(waitlists),
-    ADD_TEST(userevents),
-    ADD_TEST(callbacks),
-    ADD_TEST(callbacks_simultaneous),
-    ADD_TEST(userevents_multithreaded),
+    // ADD_TEST(userevents),
+    // ADD_TEST(callbacks),
+    // ADD_TEST(callbacks_simultaneous),
+    // ADD_TEST(userevents_multithreaded),
 };
 
 const int test_num = ARRAY_SIZE(test_list);

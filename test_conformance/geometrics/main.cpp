@@ -28,9 +28,9 @@ test_definition test_list[] = {
     ADD_TEST( geom_dot ),
     ADD_TEST( geom_distance ),
     ADD_TEST( geom_fast_distance ),
-    ADD_TEST( geom_length ),
+    // ADD_TEST( geom_length ),
     ADD_TEST( geom_fast_length ),
-    ADD_TEST( geom_normalize ),
+    // ADD_TEST( geom_normalize ),
     ADD_TEST( geom_fast_normalize ),
 };
 

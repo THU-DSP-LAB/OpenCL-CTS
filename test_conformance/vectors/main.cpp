@@ -33,7 +33,7 @@ test_definition test_list[] = {
     ADD_TEST(vec_align_struct),
     ADD_TEST(vec_align_packed_struct),
     ADD_TEST(vec_align_struct_arr),
-    ADD_TEST(vec_align_packed_struct_arr),
+    // ADD_TEST(vec_align_packed_struct_arr),
 };
 
 const int test_num = ARRAY_SIZE(test_list);

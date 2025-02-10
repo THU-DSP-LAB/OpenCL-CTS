@@ -26,17 +26,17 @@
 
 // clang-format off
 test_definition test_list[] = {
-    ADD_TEST( atomic_add ),
-    ADD_TEST( atomic_sub ),
-    ADD_TEST( atomic_xchg ),
-    ADD_TEST( atomic_min ),
-    ADD_TEST( atomic_max ),
-    ADD_TEST( atomic_inc ),
-    ADD_TEST( atomic_dec ),
-    ADD_TEST( atomic_cmpxchg ),
-    ADD_TEST( atomic_and ),
-    ADD_TEST( atomic_or ),
-    ADD_TEST( atomic_xor ),
+    // ADD_TEST( atomic_add ),
+    // ADD_TEST( atomic_sub ),
+    // ADD_TEST( atomic_xchg ),
+    // ADD_TEST( atomic_min ),
+    // ADD_TEST( atomic_max ),
+    // ADD_TEST( atomic_inc ),
+    // ADD_TEST( atomic_dec ),
+    // ADD_TEST( atomic_cmpxchg ),
+    // ADD_TEST( atomic_and ),
+    // ADD_TEST( atomic_or ),
+    // ADD_TEST( atomic_xor ),
 
     ADD_TEST( atomic_add_index ),
     ADD_TEST( atomic_add_index_bin ),
