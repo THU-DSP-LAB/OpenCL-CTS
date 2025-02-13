@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# This script runs all test cases for "test_conversions" in sequence and logs the results.
+# It supports resuming from a specified test case to continue from the last interruption.
+# 
+# Usage:
+#   ./run_conversions_serial.sh              # Run all tests from the beginning
+#   ./run_conversions_serial.sh uchar_uint   # Resume from "uchar_uint" and continue testing
+# 
+# Logs:
+#   - The log file "1test_conversions.log" is appended, not overwritten.
+#   - Each test run is prefixed with "===== Starting new test session from: XXX =====".
+#   - The output of "test_conversions" is logged, including whether "PASSED test" is found.
+
 # 定义测试目录
 test_dir="build/test_conformance/conversions"
 test_exec="test_conversions"
@@ -14,13 +26,23 @@ fi
 # 进入测试目录
 cd "$test_dir" || exit 1
 
-# 清空日志文件
-> "$log_file"
+# 获取用户指定的起始测试名称（如果提供）
+start_test="$1"
+
+# If no start test name is provided, clear the log file; otherwise, append
+if [ -z "$start_test" ]; then
+    echo "===== Starting new test session: FULL RUN =====" > "$log_file"
+else
+    echo "===== Starting new test session from: $start_test =====" >> "$log_file"
+fi
 
 # 定义格式类型
 formats=("uchar" "char" "ushort" "short" "uint" "int" "float" "double" "ulong" "long")
 saturations=("" "_sat")
 roundings=("" "_rte" "_rtp" "_rtn" "_rtz")
+
+# 标记是否开始执行（用于断点续测）
+start_flag=false
 
 # 生成并运行测试命令
 for dest in "${formats[@]}"; do
@@ -30,6 +52,15 @@ for dest in "${formats[@]}"; do
                 test_name="${dest}${sat}${round}_${src}"
                 cmd="./$test_exec $test_name"
                 
+                # 如果指定了起点，且还未到指定的起始测试名称，则跳过
+                if [ -n "$start_test" ] && [ "$start_flag" = false ]; then
+                    if [ "$test_name" == "$start_test" ]; then
+                        start_flag=true
+                    else
+                        continue
+                    fi
+                fi
+
                 echo "Running: $cmd" | tee -a "$log_file"
                 
                 # 运行命令，获取完整输出
