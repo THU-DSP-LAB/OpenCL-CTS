@@ -11,6 +11,7 @@
 #   - The log file "1test_conversions.log" is appended, not overwritten.
 #   - Each test run is prefixed with "===== Starting new test session from: XXX =====".
 #   - The output of "test_conversions" is logged, including whether "PASSED test" is found.
+#   - Each individual test has its own log file with full output.
 
 # 定义测试目录
 test_dir="build/test_conformance/conversions"
@@ -61,20 +62,21 @@ for dest in "${formats[@]}"; do
                     fi
                 fi
 
-                echo "Running: $cmd" | tee -a "$log_file"
+                test_log_file="1test_${test_name}.log"
+                echo "Running: $cmd" | tee -a "$log_file" "$test_log_file"
                 
                 # 运行命令，获取完整输出
-                output=$($cmd 2>&1 | tee /dev/tty)
+                output=$($cmd 2>&1 | tee -a "$test_log_file")
 
                 # 查找包含 "PASSED test" 的行（不要求整行匹配）
                 matched_lines=$(echo "$output" | grep -i "PASSED test")
 
                 if [ -n "$matched_lines" ]; then
                     while IFS= read -r line; do
-                        echo "$cmd: $line" | tee -a "$log_file"
+                        echo "$cmd: $line" | tee -a "$log_file" "$test_log_file"
                     done <<< "$matched_lines"
                 else
-                    echo "$cmd: No 'PASSED test' found" | tee -a "$log_file"
+                    echo "$cmd: No 'PASSED test' found" | tee -a "$log_file" "$test_log_file"
                 fi
             done
         done
