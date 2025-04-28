@@ -1,0 +1,143 @@
+{
+    "basic": {
+        "test_list": [
+            hostptr, fpmath, intmath_int, intmath_int2, intmath_int4, intmath_long, intmath_long2, intmath_long4, hiloeo, if, sizeof, loop, pointer_cast, local_arg_def, local_kernel_def, local_kernel_scope, constant, constant_source, readimage, readimage_int16, readimage_fp32, writeimage, writeimage_int16, writeimage_fp32, mri_one, mri_multiple, image_r8, barrier, wg_barrier, int2fp, fp2int, imagereadwrite, imagereadwrite3d, readimage3d, readimage3d_int16, readimage3d_fp32, bufferreadwriterect, arrayreadwrite, arraycopy, imagearraycopy, imagearraycopy3d, imagecopy, imagecopy3d, imagerandomcopy, arrayimagecopy, arrayimagecopy3d, imagenpot, vload_global, vload_local, vload_constant, vload_private, vstore_global, vstore_local, vstore_private, createkernelsinprogram, imagedim_pow2, imagedim_non_pow2, image_param, image_multipass_integer_coord, image_multipass_float_coord, explicit_s2v_char, explicit_s2v_uchar, explicit_s2v_short, explicit_s2v_ushort, explicit_s2v_int, explicit_s2v_uint, explicit_s2v_long, explicit_s2v_ulong, explicit_s2v_float, explicit_s2v_double, enqueue_map_buffer, enqueue_map_image, work_item_functions, astype, async_copy_global_to_local, async_copy_local_to_global, async_strided_copy_global_to_local, async_strided_copy_local_to_global, async_copy_global_to_local2D, async_copy_local_to_global2D, async_copy_global_to_local3D, async_copy_local_to_global3D, async_work_group_copy_fence_import_after_export_aliased_local, async_work_group_copy_fence_import_after_export_aliased_global, async_work_group_copy_fence_import_after_export_aliased_global_and_local, async_work_group_copy_fence_export_after_import_aliased_local, async_work_group_copy_fence_export_after_import_aliased_global, async_work_group_copy_fence_export_after_import_aliased_global_and_local, prefetch, kernel_call_kernel_function, host_numeric_constants, kernel_numeric_constants, kernel_limit_constants, kernel_preprocessor_macros, parameter_types, vector_creation, vector_swizzle, vec_type_hint, kernel_memory_alignment_local, kernel_memory_alignment_global, kernel_memory_alignment_constant, kernel_memory_alignment_private, progvar_prog_scope_misc, progvar_prog_scope_uninit, progvar_prog_scope_init, progvar_func_scope, global_work_offsets, get_global_offset, global_linear_id, local_linear_id, enqueued_local_size, simple_read_image_pitch, simple_write_image_pitch, get_linear_ids, rw_image_access_qualifier
+        ]
+    },
+    "compiler": {
+        "test_list": [
+            load_program_source, load_multistring_source, load_two_kernel_source, load_null_terminated_source, load_null_terminated_multi_line_source, load_null_terminated_partial_multi_line_source, load_discreet_length_source, get_program_source, get_program_build_info, get_program_info, large_compile, async_build, options_build_optimizations, options_build_macro, options_build_macro_existence, options_include_directory, options_denorm_cache, preprocessor_define_udef, preprocessor_include, preprocessor_line_error, preprocessor_pragma, opencl_c_versions, compiler_defines_for_extensions, image_macro, simple_compile_only, simple_static_compile_only, simple_extern_compile_only, simple_compile_with_callback, simple_embedded_header_compile, simple_link_only, two_file_regular_variable_access, two_file_regular_struct_access, two_file_regular_function_access, simple_link_with_callback, simple_embedded_header_link, execute_after_simple_compile_and_link, execute_after_simple_compile_and_link_no_device_info, execute_after_simple_compile_and_link_with_defines, execute_after_simple_compile_and_link_with_callbacks, execute_after_simple_library_with_link, execute_after_two_file_link, execute_after_embedded_header_link, execute_after_included_header_link, execute_after_serialize_reload_object, execute_after_serialize_reload_library, simple_library_only, simple_library_with_callback, simple_library_with_link, two_file_link, multi_file_libraries, multiple_files, multiple_libraries, multiple_files_multiple_libraries, multiple_embedded_headers, program_binary_type, compile_and_link_status_options_log, pragma_unroll, features_macro, unload_valid, unload_repeated, unload_compile_unload_link, unload_build_unload_create_kernel, unload_link_different, unload_build_threaded, unload_build_info, unload_program_binaries
+        ]
+    },
+    "api": {
+        "test_list": [
+            get_platform_info, get_sampler_info, get_sampler_info_compatibility, get_command_queue_info, get_command_queue_info_compatibility, get_context_info, get_device_info, enqueue_task, binary_get, binary_create, kernel_required_group_size, release_kernel_order, release_during_execute, load_single_kernel, load_two_kernels, load_two_kernels_in_one, load_two_kernels_manually, get_program_info_kernel_names, get_kernel_arg_info, create_kernels_in_program, get_kernel_info, kernel_private_memory_size, execute_kernel_local_sizes, set_kernel_arg_by_index, set_kernel_arg_constant, set_kernel_arg_struct_array, kernel_global_constant, kernel_attributes, min_max_thread_dimensions, min_max_work_items_sizes, min_max_work_group_size, min_max_read_image_args, min_max_write_image_args, min_max_mem_alloc_size, min_max_image_2d_width, min_max_image_2d_height, min_max_image_3d_width, min_max_image_3d_height, min_max_image_3d_depth, min_max_image_array_size, min_max_image_buffer_size, min_max_parameter_size, min_max_samplers, min_max_constant_buffer_size, min_max_constant_args, min_max_compute_units, min_max_address_bits, min_max_single_fp_config, min_max_double_fp_config, min_max_local_mem_size, min_max_kernel_preferred_work_group_size_multiple, min_max_execution_capabilities, min_max_queue_properties, min_max_device_version, min_max_language_version, kernel_arg_changes, kernel_arg_multi_setup_random, native_kernel, create_context_from_type, platform_extensions, get_platform_ids, bool_type, repeated_setup_cleanup, retain_queue_single, retain_queue_multiple, retain_mem_object_single, retain_mem_object_multiple, retain_mem_object_set_kernel_arg, min_data_type_align_size_alignment, context_destructor_callback, mem_object_destructor_callback, null_buffer_arg, get_buffer_info, get_image2d_info, get_image3d_info, get_image1d_info, get_image1d_array_info, get_image2d_array_info, queue_flush_on_release, queue_hint, queue_properties, sub_group_dispatch, clone_kernel, zero_sized_enqueue, buffer_properties_queries, image_properties_queries, queue_properties_queries, pipe_properties_queries, consistency_svm, consistency_memory_model, consistency_device_enqueue, consistency_pipes, consistency_progvar, consistency_non_uniform_work_group, consistency_read_write_images, consistency_2d_image_from_buffer, consistency_depth_images, consistency_device_and_host_timer, consistency_il_programs, consistency_subgroups, consistency_prog_ctor_dtor, consistency_3d_image_writes, min_image_formats, negative_get_platform_info, negative_get_platform_ids
+        ]
+    },
+    "thread_dimensions": {
+        "test_list": [
+            quick_1d_explicit_local, quick_2d_explicit_local, quick_3d_explicit_local, quick_1d_implicit_local, quick_2d_implicit_local, quick_3d_implicit_local, full_1d_explicit_local, full_2d_explicit_local, full_3d_explicit_local, full_1d_implicit_local, full_2d_implicit_local, full_3d_implicit_local
+        ]
+    },
+    "commonfns": {
+        "test_list": [
+            clamp, degrees, fmax, fmaxf, fmin, fminf, max, maxf, min, minf, mix, mixf, radians, step, stepf, smoothstep, smoothstepf, sign
+        ]
+    },
+    "computeinfo": {
+        "test_list": [
+            computeinfo, extended_versioning, device_uuid, conformance_version, pci_bus_info
+        ]
+    },
+    "subgroups": {
+        "test_list": [
+            sub_group_info_ext, sub_group_info_core, work_item_functions_ext, work_item_functions_core, subgroup_functions_ext, subgroup_functions_core, barrier_functions_ext, barrier_functions_core, ifp_ext, ifp_core, subgroup_functions_extended_types, subgroup_functions_non_uniform_vote, subgroup_functions_non_uniform_arithmetic, subgroup_functions_ballot, subgroup_functions_clustered_reduce, subgroup_functions_shuffle, subgroup_functions_shuffle_relative, subgroup_functions_rotate
+        ]
+    },
+    "select": {
+        "test_list": [
+            select_uchar_uchar, select_uchar_char, select_char_uchar, select_char_char, select_ushort_ushort, select_ushort_short, select_short_ushort, select_short_short, select_half_ushort, select_half_short, select_uint_uint, select_uint_int, select_int_uint, select_int_int, select_float_uint, select_float_int, select_ulong_ulong, select_ulong_long, select_long_ulong, select_long_long, select_double_ulong, select_double_long
+        ]
+    },
+    "buffers": {
+        "test_list": [
+            buffer_read_async_int, buffer_read_async_uint, buffer_read_async_long, buffer_read_async_ulong, buffer_read_async_short, buffer_read_async_ushort, buffer_read_async_char, buffer_read_async_uchar, buffer_read_async_float, buffer_read_array_barrier_int, buffer_read_array_barrier_uint, buffer_read_array_barrier_long, buffer_read_array_barrier_ulong, buffer_read_array_barrier_short, buffer_read_array_barrier_ushort, buffer_read_array_barrier_char, buffer_read_array_barrier_uchar, buffer_read_array_barrier_float, buffer_read_int, buffer_read_uint, buffer_read_long, buffer_read_ulong, buffer_read_short, buffer_read_ushort, buffer_read_float, buffer_read_half, buffer_read_char, buffer_read_uchar, buffer_read_struct, buffer_read_random_size, buffer_map_read_int, buffer_map_read_uint, buffer_map_read_long, buffer_map_read_ulong, buffer_map_read_short, buffer_map_read_ushort, buffer_map_read_char, buffer_map_read_uchar, buffer_map_read_float, buffer_map_read_struct, buffer_map_write_int, buffer_map_write_uint, buffer_map_write_long, buffer_map_write_ulong, buffer_map_write_short, buffer_map_write_ushort, buffer_map_write_char, buffer_map_write_uchar, buffer_map_write_float, buffer_map_write_struct, buffer_write_int, buffer_write_uint, buffer_write_short, buffer_write_ushort, buffer_write_char, buffer_write_uchar, buffer_write_float, buffer_write_half, buffer_write_long, buffer_write_ulong, buffer_write_struct, buffer_write_async_int, buffer_write_async_uint, buffer_write_async_short, buffer_write_async_ushort, buffer_write_async_char, buffer_write_async_uchar, buffer_write_async_float, buffer_write_async_long, buffer_write_async_ulong, buffer_copy, buffer_partial_copy, mem_read_write_flags, mem_write_only_flags, mem_read_only_flags, mem_copy_host_flags, mem_alloc_ref_flags, array_info_size, sub_buffers_read_write, sub_buffers_read_write_dual_devices, sub_buffers_overlapping, buffer_fill_int, buffer_fill_uint, buffer_fill_short, buffer_fill_ushort, buffer_fill_char, buffer_fill_uchar, buffer_fill_long, buffer_fill_ulong, buffer_fill_float, buffer_fill_struct, buffer_migrate, image_migrate
+        ]
+    },
+    "geometrics": {
+        "test_list": [
+            geom_cross, geom_dot, geom_distance, geom_fast_distance, geom_length, geom_fast_length, geom_normalize, geom_fast_normalize
+        ]
+    },
+    "multiple_device_context": {
+        "test_list": [
+            context_multiple_contexts_same_device, context_two_contexts_same_device, context_three_contexts_same_device, context_four_contexts_same_device, two_devices, max_devices, hundred_queues
+        ]
+    },
+    "events": {
+        "test_list": [
+            event_get_execute_status, event_get_write_array_status, event_get_read_array_status, event_get_info, event_wait_for_execute, event_wait_for_array, event_flush, event_finish_execute, event_finish_array, event_release_before_done, event_enqueue_marker, event_enqueue_marker_with_event_list, event_enqueue_barrier_with_event_list, out_of_order_event_waitlist_single_queue, out_of_order_event_waitlist_multi_queue, out_of_order_event_waitlist_multi_queue_multi_device, out_of_order_event_enqueue_wait_for_events_single_queue, out_of_order_event_enqueue_wait_for_events_multi_queue, out_of_order_event_enqueue_wait_for_events_multi_queue_multi_device, out_of_order_event_enqueue_marker_single_queue, out_of_order_event_enqueue_marker_multi_queue, out_of_order_event_enqueue_marker_multi_queue_multi_device, out_of_order_event_enqueue_barrier_single_queue, waitlists, userevents, callbacks, callbacks_simultaneous, userevents_multithreaded
+        ]
+    },
+    "vectors": {
+        "test_list": [
+            step_type, step_var, step_typedef_type, step_typedef_var, vec_align_array, vec_align_struct, vec_align_packed_struct, vec_align_struct_arr, vec_align_packed_struct_arr
+        ]
+    },
+    "printf": {
+        "test_list": [
+            int_0, int_1, int_2, int_3, int_4, int_5, int_6, int_7, int_8, half_0, half_1, half_2, half_3, half_4, half_5, half_6, half_7, half_8, half_9, half_limits_0, half_limits_1, half_limits_2, float_0, float_1, float_2, float_3, float_4, float_5, float_6, float_7, float_8, float_9, float_10, float_11, float_12, float_13, float_14, float_15, float_16, float_17, float_limits_0, float_limits_1, float_limits_2, octal_0, octal_1, octal_2, octal_3, unsigned_0, unsigned_1, hexadecimal_0, hexadecimal_1, hexadecimal_2, hexadecimal_3, hexadecimal_4, char_0, char_1, char_2, string_0, string_1, string_2, vector_0, vector_1, vector_2, vector_3, vector_4, vector_5, address_space_0, address_space_1, address_space_2, address_space_3, address_space_4, buffer_size
+        ]
+    },
+    "conversions": {
+    },
+    "contractions": {
+        "test_list": [
+            contractions_float_0, contractions_float_1, contractions_float_2, contractions_float_3, contractions_float_4, contractions_float_5, contractions_float_6, contractions_float_7, contractions_double_0, contractions_double_1, contractions_double_2, contractions_double_3, contractions_double_4, contractions_double_5, contractions_double_6, contractions_double_7
+        ]
+    },
+    "integer_ops": {
+        "test_list": [
+            integer_clz, integer_ctz, integer_hadd, integer_rhadd, integer_mul_hi, integer_rotate, integer_clamp , integer_mad_sat, integer_mad_hi, integer_min, integer_max, integer_upsample, integer_abs, integer_abs_diff, integer_add_sat, integer_sub_sat, integer_addAssign, integer_subtractAssign, integer_multiplyAssign, integer_divideAssign, integer_moduloAssign, integer_andAssign, integer_orAssign, integer_exclusiveOrAssign, unary_ops_increment, unary_ops_decrement, unary_ops_full, integer_mul24, integer_mad24, extended_bit_ops_extract, extended_bit_ops_insert, extended_bit_ops_reverse, long_math, long_logic, long_shift, long_compare, ulong_math, ulong_logic, ulong_shift, ulong_compare, int_math, int_logic, int_shift, int_compare, uint_math, uint_logic, uint_shift, uint_compare, short_math, short_logic, short_shift, short_compare, ushort_math, ushort_logic, ushort_shift, ushort_compare, char_math, char_logic, char_shift, char_compare, uchar_math, uchar_logic, uchar_shift, uchar_compare, popcount, quick_long_math, quick_long_logic, quick_long_shift, quick_long_compare, quick_ulong_math, quick_ulong_logic, quick_ulong_shift, quick_ulong_compare, quick_int_math, quick_int_logic, quick_int_shift, quick_int_compare, quick_uint_math, quick_uint_logic, quick_uint_shift, quick_uint_compare, quick_short_math, quick_short_logic, quick_short_shift, quick_short_compare, quick_ushort_math, quick_ushort_logic, quick_ushort_shift, quick_ushort_compare, quick_char_math, quick_char_logic, quick_char_shift, quick_char_compare, quick_uchar_math, quick_uchar_logic, quick_uchar_shift, quick_uchar_compare, vector_scalar, integer_dot_product
+        ]
+    },
+    "non_uniform_work_group": {
+        "test_list": [
+            non_uniform_1d_basic, non_uniform_1d_atomics, non_uniform_1d_barriers, non_uniform_2d_basic, non_uniform_2d_atomics, non_uniform_2d_barriers, non_uniform_3d_basic, non_uniform_3d_atomics, non_uniform_3d_barriers, non_uniform_other_basic, non_uniform_other_atomics, non_uniform_other_barriers
+        ]
+    },
+    "generic_address_space": {
+        "test_list": [
+            function_get_fence, function_to_address_space, variable_get_fence, variable_to_address_space, casting, conditional_casting, chain_casting, ternary_operator_casting, language_struct, language_union, multiple_calls_same_function, compare_pointers, library_function, generic_variable_volatile, generic_variable_const, generic_variable_gentype, builtin_functions, generic_advanced_casting, generic_ptr_to_host_mem, generic_ptr_to_host_mem_svm, max_number_of_params
+        ]
+    },
+    "math_brute_force": {
+        "test_list": [
+            acos, acosh, acospi, asin, asinh, asinpi, atan, atanh, atanpi, atan2, atan2pi, cbrt, ceil, copysign, cos, cosh, cospi, exp, exp2, exp10, expm1, fabs, fdim, floor, fma, fmax, fmin, fmod, fract, frexp, hypot, ilogb, isequal, isfinite, isgreater, isgreaterequal, isinf, isless, islessequal, islessgreater, isnan, isnormal, isnotequal, isordered, isunordered, ldexp, lgamma, lgamma_r, log, log2, log10, log1p, logb, mad, maxmag, minmag, modf, nan, nextafter, pow, pown, powr, remainder, remquo, rint, rootn, round, rsqrt, signbit, sin, sincos, sinh, sinpi, sqrt, sqrt_cr, tan, tanh, tanpi, trunc, half_cos, half_divide, half_exp, half_exp2, half_exp10, half_log, half_log2, half_log10, half_powr, half_recip, half_rsqrt, half_sin, half_sqrt, half_tan, add, subtract, divide, divide_cr, multiply, assignment, not
+        ]
+    },
+    "atomics": {
+        "test_list": [
+            atomic_add, atomic_sub, atomic_xchg, atomic_min, atomic_max, atomic_inc, atomic_dec, atomic_cmpxchg, atomic_and, atomic_or, atomic_xor, atomic_add_index, atomic_add_index_bin
+        ]
+    },
+    "c11_atomics": {
+        "test_list": [
+            atomic_init, atomic_store, atomic_load, atomic_exchange, atomic_compare_exchange_weak, atomic_compare_exchange_strong, atomic_fetch_add, atomic_fetch_sub, atomic_fetch_and, atomic_fetch_or, atomic_fetch_orand, atomic_fetch_xor, atomic_fetch_xor2, atomic_fetch_min, atomic_fetch_max, atomic_flag, atomic_fence, svm_atomic_init, svm_atomic_store, svm_atomic_load, svm_atomic_exchange, svm_atomic_compare_exchange_weak, svm_atomic_compare_exchange_strong, svm_atomic_fetch_add, svm_atomic_fetch_sub, svm_atomic_fetch_and, svm_atomic_fetch_or, svm_atomic_fetch_orand, svm_atomic_fetch_xor, svm_atomic_fetch_xor2, svm_atomic_fetch_min, svm_atomic_fetch_max, svm_atomic_flag, svm_atomic_fence
+        ]
+    },
+    "pipes": {
+    },
+    "SVM": {
+    },
+    "device_execution": {
+        "test_list": [
+            device_info, device_queue, execute_block, enqueue_block, enqueue_nested_blocks, enqueue_wg_size, enqueue_flags, enqueue_multi_queue, host_multi_queue, enqueue_ndrange, host_queue_order, enqueue_profiling
+        ]
+    },
+    "workgroups": {
+        "test_list": [
+            work_group_all, work_group_any, work_group_reduce_add, work_group_reduce_min, work_group_reduce_max, work_group_scan_inclusive_add, work_group_scan_inclusive_min, work_group_scan_inclusive_max, work_group_scan_exclusive_add, work_group_scan_exclusive_min, work_group_scan_exclusive_max, work_group_broadcast_1D, work_group_broadcast_2D, work_group_broadcast_3D, work_group_suggested_local_size_1D, work_group_suggested_local_size_2D, work_group_suggested_local_size_3D
+        ]
+    },
+    "mem_host_flags": {
+        "test_list": [
+            mem_host_read_only_buffer, mem_host_read_only_subbuffer, mem_host_write_only_buffer, mem_host_write_only_subbuffer, mem_host_no_access_buffer, mem_host_no_access_subbuffer, mem_host_read_only_image, mem_host_write_only_image, mem_host_no_access_image
+        ]
+    },
+    "relationals": {
+        "test_list": [
+            relational_any, relational_all, relational_bitselect, relational_select_signed, relational_select_unsigned, relational_isequal, relational_isnotequal, relational_isgreater, relational_isgreaterequal, relational_isless, relational_islessequal, relational_islessgreater, shuffle_copy, shuffle_function_call, shuffle_array_cast, shuffle_built_in, shuffle_built_in_dual_input
+        ]
+    },
+    "profiling": {
+        "test_list": [
+            read_array_int, read_array_uint, read_array_long, read_array_ulong, read_array_short, read_array_ushort, read_array_float, read_array_char, read_array_uchar, read_array_struct, write_array_int, write_array_uint, write_array_long, write_array_ulong, write_array_short, write_array_ushort, write_array_float, write_array_char, write_array_uchar, write_array_struct, read_image_float, read_image_char, read_image_uchar, write_image_float, write_image_char, write_image_uchar, copy_array, copy_partial_array, copy_image, copy_array_to_image, execute
+        ]
+    },
+    "allocations": {
+        "test_list": [
+            buffer, image2d_read, image2d_write, buffer_non_blocking, image2d_read_non_blocking, image2d_write_non_blocking
+        ]
+    }
+}
