@@ -6,16 +6,17 @@ import json
 import shutil
 import subprocess
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from queue import Queue
 import argparse
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 def run_test(folder, exec_file, subtest,
-             build_root, logs_dir, orig_install_prefix):
+             build_root, logs_dir, install_queue):
     """
     在指定的子目录（若有 subtest 则是 build_root/folder/subtest，否则是 build_root/folder）里
     运行单个测试：
-      1) 先复制一份 install_prefix 到 work_dir/install
+      1) 每次从 install_queue 中取出一个 install 副本，运行测试后归还
       2) 设置独立环境变量
       3) 写 header 并执行测试，stdout+stderr 重定向到日志
       4) 测试结束后删除安装目录
@@ -36,68 +37,47 @@ def run_test(folder, exec_file, subtest,
     if not os.path.isdir(work_dir):
         raise FileNotFoundError(f"找不到工作目录: {work_dir!r}")
 
-    # 2) 验证源 install 路径是否存在
-    if not os.path.isdir(orig_install_prefix):
-        raise FileNotFoundError(
-            f"原始 install 目录不存在: {orig_install_prefix!r}"
-        )
+    # 2) 从队列取一个 install 副本
+    install_prefix = install_queue.get()
 
-    # 3) 复制 install_prefix 到 work_dir/install
-    dest_prefix = os.path.join(work_dir, "install")
-    # 如果残留就先删掉
-    if os.path.exists(dest_prefix):
-        shutil.rmtree(dest_prefix)
     try:
-        # Python 3.8+ 可以加 dirs_exist_ok=True，否则如上先删除
-        shutil.copytree(orig_install_prefix, dest_prefix)
-    except Exception as e:
-        # 既写到日志，又打印到终端
-        errmsg = f"[ERROR] 拷贝 install 失败: {orig_install_prefix!r} -> {dest_prefix!r}: {e}"
-        print(errmsg)
-        with open(log_path, "a", encoding="utf-8") as log_file:
-            log_file.write(errmsg + "\n")
-        # 直接退出这一测例
-        return test_name, -1
+        # 3) 构造独立环境变量
+        env = os.environ.copy()
+        lib_dir = os.path.join(install_prefix, "lib")
+        old_ld = env.get("LD_LIBRARY_PATH", "")
+        env["LD_LIBRARY_PATH"]      = f"{lib_dir}:{old_ld}" if old_ld else lib_dir
+        env["VENTUS_INSTALL_PREFIX"] = install_prefix
+        env["OCL_ICD_VENDORS"]       = os.path.join(lib_dir, "libpocl.so")
+        env["CL_ICD_FILENAMES"]      = os.path.join(lib_dir, "libpocl.so")
+        env["POCL_DEVICES"]          = "ventus"
 
-    # 4) 构造独立环境变量
-    env = os.environ.copy()
-    lib_dir = os.path.join(dest_prefix, "lib")
-    old_ld = env.get("LD_LIBRARY_PATH", "")
-    env["LD_LIBRARY_PATH"] = f"{lib_dir}:{old_ld}" if old_ld else lib_dir
-    env["VENTUS_INSTALL_PREFIX"] = dest_prefix
-    env["OCL_ICD_VENDORS"]   = os.path.join(lib_dir, "libpocl.so")
-    env["CL_ICD_FILENAMES"]  = os.path.join(lib_dir, "libpocl.so")
-    env["POCL_DEVICES"]      = "ventus"
-
-    # 5) 写 header 并执行
-    header = (
-        f"在目录 {work_dir} 运行命令: {' '.join(cmd)}\n"
-        f"源 install: {orig_install_prefix}\n目标 install: {dest_prefix}\n\n"
-    )
-    with open(log_path, "w", encoding="utf-8") as log_file:
-        log_file.write(header)
-        log_file.flush()
-        proc = subprocess.run(
-            cmd,
-            cwd=work_dir,
-            stdout=log_file,
-            stderr=subprocess.STDOUT,
-            text=True,
-            env=env
+        # 4) 写 header 并执行
+        header = (
+            f"在目录 {work_dir} 运行命令: {' '.join(cmd)}\n"
+            f"使用 install 副本: {install_prefix}\n\n"
         )
+        with open(log_path, "w", encoding="utf-8") as log_file:
+            log_file.write(header)
+            log_file.flush()
+            proc = subprocess.run(
+                cmd,
+                cwd=work_dir,
+                stdout=log_file,
+                stderr=subprocess.STDOUT,
+                text=True,
+                env=env
+            )
 
-    # 6) 测试结束后删除临时 install 目录
-    try:
-        shutil.rmtree(dest_prefix)
-    except Exception as e:
-        print(f"[WARN] 无法删除临时 install 目录 {dest_prefix!r}: {e}")
+        return test_name, proc.returncode
 
-    return test_name, proc.returncode
+    finally:
+        # 5) 归还该 install 副本
+        install_queue.put(install_prefix)
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="并行执行 OpenCL-CTS 测试并保存日志（每测例独立复制 install）"
+        description="并行执行 OpenCL-CTS 测试并保存日志（预先复制 install 副本池）"
     )
     parser.add_argument(
         "--json",
@@ -133,11 +113,11 @@ def main():
         parser.error(
             "必须通过 --ventus-install-prefix 或环境变量 VENTUS_INSTALL_PREFIX 提供安装路径"
         )
-    # 统一为绝对路径，避免相对路径导致 copy 失败
     ventus_install_prefix = os.path.abspath(ventus_install_prefix)
     if not os.path.isdir(ventus_install_prefix):
         parser.error(f"VENTUS_INSTALL_PREFIX 路径不存在或不是目录: {ventus_install_prefix}")
 
+    # 准备 build_root 和 logs_dir 的绝对路径
     build_root    = os.path.abspath(os.path.join(script_dir, args.build_root))
     logs_dir      = os.path.abspath(os.path.join(script_dir, args.logs_dir))
     os.makedirs(logs_dir, exist_ok=True)
@@ -166,7 +146,24 @@ def main():
     total = len(tasks)
     print(f"准备执行 {total} 个测试任务，最大并发数 = {args.max_workers}\n")
 
-    # 4. 并发执行并收集结果
+    # 4. 预先复制 install 副本池
+    installs_base = os.path.join(script_dir, "build", "installs")
+    # 如果已存在，就先删除再重建
+    if os.path.isdir(installs_base):
+        shutil.rmtree(installs_base)
+    os.makedirs(installs_base, exist_ok=True)
+    install_paths = []
+    for i in range(args.max_workers):
+        dest = os.path.join(installs_base, f"install_{i}")
+        shutil.copytree(ventus_install_prefix, dest)
+        install_paths.append(dest)
+
+    # 5. 构造线程安全的 install 副本队列
+    install_queue = Queue()
+    for path in install_paths:
+        install_queue.put(path)
+
+    # 6. 并发执行并收集结果
     failures = []
     with ThreadPoolExecutor(max_workers=args.max_workers) as pool:
         future_to_task = {
@@ -174,7 +171,7 @@ def main():
                 run_test,
                 folder, exe, sub,
                 build_root, logs_dir,
-                ventus_install_prefix
+                install_queue
             ): (folder, sub)
             for folder, exe, sub in tasks
         }
@@ -192,7 +189,7 @@ def main():
                 print(f"[ERROR ] {name} 异常: {e}")
                 failures.append((name, e))
 
-    # 5. 汇总并退出
+    # 7. 汇总并退出
     if failures:
         print(f"\n共 {len(failures)} 项测试失败：")
         for name, err in failures:
