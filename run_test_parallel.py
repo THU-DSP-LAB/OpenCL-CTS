@@ -73,6 +73,12 @@ def run_test(folder, exec_file, subtest,
     finally:
         # 5) 归还该 install 副本
         install_queue.put(install_prefix)
+        # 6) 如是子测例，删除临时工作目录
+        if subtest:
+            try:
+                shutil.rmtree(work_dir)
+            except Exception as e:
+                print(f"[WARN] 删除子测例目录失败 {work_dir!r}: {e}")
 
 
 def main():
@@ -81,8 +87,8 @@ def main():
     )
     parser.add_argument(
         "--json",
-        default=os.path.join(script_dir, "test_list.json"),
-        help="包含各测试套及子测例的 JSON 文件（默认为脚本同目录下的 test_list.json）"
+        default=os.path.join(script_dir, "test_list_new.json"),
+        help="包含各测试套及子测例的 JSON 文件"
     )
     parser.add_argument(
         "--build-root",
@@ -104,6 +110,12 @@ def main():
         type=int,
         default=10,
         help="最大并发测试数量"
+    )
+    parser.add_argument(
+        "--filter-state",
+        choices=["all", "pass", "fail", "skip", "unsupport"],
+        default="pass",
+        help="运行指定状态的子测例：'pass','fail','skip','unsupport'，或 'all' 全跑；默认只跑 pass"
     )
     args = parser.parse_args()
 
@@ -136,12 +148,13 @@ def main():
     tasks = []
     for folder, info in tests.items():
         exe      = exec_map.get(folder, f"test_{folder}")
-        sub_list = info.get("test_list")
-        if sub_list:
-            for sub in sub_list:
-                tasks.append((folder, exe, sub))
-        else:
+        if not info:
             tasks.append((folder, exe, None))
+        else:
+            for sub, meta in info.items():
+                state = meta.get("state")
+                if args.filter_state == "all" or state == args.filter_state:
+                    tasks.append((folder, exe, sub))
 
     total = len(tasks)
     print(f"准备执行 {total} 个测试任务，最大并发数 = {args.max_workers}\n")
