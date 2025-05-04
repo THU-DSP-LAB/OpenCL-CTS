@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import builtins
 import json
 import shutil
 import subprocess
@@ -117,6 +118,16 @@ def main():
         default="pass",
         help="运行指定状态的子测例：'pass','fail','skip','unsupport'，或 'all' 全跑；默认只跑 pass"
     )
+    parser.add_argument(
+        "--keep-pass-logs",
+        action="store_true",
+        help="保留通过的子测例日志；默认删除"
+    )
+    parser.add_argument(
+        "--master-log",
+        default="all_run_tests.log",
+        help="主日志文件名，将保存在 logs-dir 目录下（默认: run_tests.log）"
+    )
     args = parser.parse_args()
 
     # 如果既没通过命令行，也没通过环境变量提供路径，则报错
@@ -133,6 +144,19 @@ def main():
     build_root    = os.path.abspath(os.path.join(script_dir, args.build_root))
     logs_dir      = os.path.abspath(os.path.join(script_dir, args.logs_dir))
     os.makedirs(logs_dir, exist_ok=True)
+
+    # —— 打开主日志，并劫持 print() ——
+    master_log_path = os.path.join(logs_dir, args.master_log)
+    master_log = open(master_log_path, "w", encoding="utf-8")
+    orig_print = builtins.print
+    def print(*p_args, **p_kwargs):
+        # 同时输出到控制台和主日志
+        orig_print(*p_args, **p_kwargs)
+        msg = " ".join(str(x) for x in p_args)
+        end = p_kwargs.get("end", "\n")
+        master_log.write(msg + end)
+        master_log.flush()
+    builtins.print = print
 
     # 1. Load JSON
     with open(args.json, "r", encoding="utf-8") as f:
@@ -191,10 +215,13 @@ def main():
         for future in as_completed(future_to_task):
             folder, sub = future_to_task[future]
             name = f"{folder}_{sub}" if sub else folder
+            log_file = os.path.join(logs_dir, f"output_{name}.log")
             try:
                 _, code = future.result()
                 if code == 0:
                     print(f"[  OK  ] {name}")
+                    if not args.keep_pass_logs:
+                        os.remove(log_file)
                 else:
                     print(f"[ FAIL ] {name} (exit {code})")
                     failures.append((name, code))
@@ -210,6 +237,7 @@ def main():
         exit(1)
     else:
         print("\n所有测试通过！")
+    master_log.close()
 
 
 if __name__ == "__main__":
