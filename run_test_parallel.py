@@ -114,9 +114,15 @@ def main():
     )
     parser.add_argument(
         "--filter-state",
+        nargs="+",
         choices=["all", "pass", "fail", "skip", "unsupport"],
-        default="pass",
-        help="运行指定状态的子测例：'pass','fail','skip','unsupport'，或 'all' 全跑；默认只跑 pass"
+        default=["pass", "skip", "unsupport"],
+        help=(
+            "运行指定状态的子测例，可一次指定多个，如 "
+            "'--filter-state pass unsupport'；"
+            "使用 'all' 跳过过滤。"
+            "默认运行 pass, skip, unsupport"
+        )
     )
     parser.add_argument(
         "--keep-pass-logs",
@@ -177,7 +183,7 @@ def main():
         else:
             for sub, meta in info.items():
                 state = meta.get("state")
-                if args.filter_state == "all" or state == args.filter_state:
+                if "all" in args.filter_state or state in args.filter_state:
                     tasks.append((folder, exe, sub))
 
     total = len(tasks)
