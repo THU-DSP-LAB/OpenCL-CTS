@@ -51,6 +51,7 @@ def run_test(folder, exec_file, subtest,
         env["OCL_ICD_VENDORS"]       = os.path.join(lib_dir, "libpocl.so")
         env["CL_ICD_FILENAMES"]      = os.path.join(lib_dir, "libpocl.so")
         env["POCL_DEVICES"]          = "ventus"
+        env["CL_TEST_SINGLE_THREADED"] = "1"
 
         # 4) 写 header 并执行
         header = (
