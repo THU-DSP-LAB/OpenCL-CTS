@@ -27,13 +27,14 @@ def run_test(folder, exec_file, subtest,
     log_path  = os.path.join(logs_dir, f"output_{test_name}.log")
 
     # 1) 准备工作目录与命令
+    exe_name, *exe_args = exec_file
     if subtest:
         work_dir = os.path.join(build_root, folder, subtest)
         os.makedirs(work_dir, exist_ok=True)
-        cmd = [f"../{exec_file}", subtest]
+        cmd = [f"../{exe_name}", *exe_args, subtest]
     else:
         work_dir = os.path.join(build_root, folder)
-        cmd = [f"./{exec_file}"]
+        cmd = [f"./{exe_name}", *exe_args]
 
     if not os.path.isdir(work_dir):
         raise FileNotFoundError(f"找不到工作目录: {work_dir!r}")
@@ -110,7 +111,7 @@ def main():
     parser.add_argument(
         "--max-workers",
         type=int,
-        default=10,
+        default=5,
         help="最大并发测试数量"
     )
     parser.add_argument(
@@ -171,8 +172,10 @@ def main():
 
     # 2. 可执行文件映射（如有特殊命名）
     exec_map = {
-        "math_brute_force": "test_bruteforce",
-        "multiple_device_context": "test_multiples",
+        "math_brute_force": ["test_bruteforce"],
+        "multiple_device_context": ["test_multiples"],
+        "select":        ["test_select", "-w"],
+        "conversions":   ["test_conversions", "-wz2"],
     }
 
     # 3. 构造任务列表
