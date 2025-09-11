@@ -52,6 +52,7 @@ def run_test(folder, exec_file, need_single_thread, subtest,
         env["OCL_ICD_VENDORS"]       = os.path.join(lib_dir, "libpocl.so")
         env["CL_ICD_FILENAMES"]      = os.path.join(lib_dir, "libpocl.so")
         env["POCL_DEVICES"]          = "ventus"
+        env["POCL_ENABLE_UNINIT"]    = "1"
         if need_single_thread:
             env["CL_TEST_SINGLE_THREADED"] = "1"
 
